@@ -7,67 +7,67 @@ Desenvolvido durante o curso Fullstack da [Academia do Programador](https://www.
 ---
 ## Detalhes
 
-Com a necessidade de controlar os estoques das farm·cias dos postos de sa˙de de Lages, foi proposto pelo
-secret·rio da sa˙de Jo„o do Nascimento, a criaÁ„o de um sistema simples para a gest„o do estoque de remÈdios
-dos postos de sa˙de de Lages, para assim atender melhor a populaÁ„o nos bairros.
+Com a necessidade de controlar os estoques das farm√°cias dos postos de sa√∫de de Lages, foi proposto pelo
+secret√°rio da sa√∫de Jo√£o do Nascimento, a cria√ß√£o de um sistema simples para a gest√£o do estoque de rem√©dios
+dos postos de sa√∫de de Lages, para assim atender melhor a popula√ß√£o nos bairros.
 
-Eles desejam otimizar o controle de estoque das farm·cias para facilitar e agilizar o processo de distribuiÁ„o de
-remÈdios aos pacientes. Os postos utilizam formul·rios de papel para armazenar as informaÁıes das quantidades
-de remÈdios disponÌveis nos estoques.
+Eles desejam otimizar o controle de estoque das farm√°cias para facilitar e agilizar o processo de distribui√ß√£o de
+rem√©dios aos pacientes. Os postos utilizam formul√°rios de papel para armazenar as informa√ß√µes das quantidades
+de rem√©dios dispon√≠veis nos estoques.
 
-Atualmente, os pacientes requisitam um medicamento e ao fazer a requisiÁ„o o funcion·rio do posto verifica a
-disponibilidade do medicamento no sistema e caso o mesmo esteja disponÌvel o atendente d· baixa no sistema
-(atualiza a quantidade) e entrega o medicamento ao paciente que j· esteja cadastrado.
+Atualmente, os pacientes requisitam um medicamento e ao fazer a requisi√ß√£o o funcion√°rio do posto verifica a
+disponibilidade do medicamento no sistema e caso o mesmo esteja dispon√≠vel o atendente d√° baixa no sistema
+(atualiza a quantidade) e entrega o medicamento ao paciente que j√° esteja cadastrado.
 
 ---
 ## Funcionalidades
 
 ### 1. Controle de Medicamentos
 
-- **Registrar Medicamento:** O registro de um medicamento ir· ser formado por: nome, descriÁ„o e quantidade do estoque. Caso
-o mesmo j· esteja cadastrado, È atualizado a quantidade.
-- **Visualizar Medicamentos:** Exibe uma lista exibindo detalhes de todos os medicamentos registrados, **tambÈm dever· exibir quais medicamentos est„o em falta** (<20 unidades).
-- **Editar Medicamentos:** Oferece a possibilidade de modificar informaÁıes de um medicamento existente.
+- **Registrar Medicamento:** O registro de um medicamento ir√° ser formado por: nome, descri√ß√£o e quantidade do estoque. Caso
+o mesmo j√° esteja cadastrado, √© atualizado a quantidade.
+- **Visualizar Medicamentos:** Exibe uma lista exibindo detalhes de todos os medicamentos registrados, **tamb√©m dever√° exibir quais medicamentos est√£o em falta** (<20 unidades).
+- **Editar Medicamentos:** Oferece a possibilidade de modificar informa√ß√µes de um medicamento existente.
 - **Excluir Medicamentos:** Permite remover um medicamento do sistema, atualizando a lista de medicamentos registrados.
 
 ### 2. Controle de Paciente
 
-- **Registrar Paciente:** O paciente dever· ser registrado com as seguintes informaÁıes: nome, telefone e cart„o do SUS.
+- **Registrar Paciente:** O paciente dever√° ser registrado com as seguintes informa√ß√µes: nome, telefone e cart√£o do SUS.
 - **Visualizar Pacientes:** Exibe uma lista exibindo detalhes de todos os medicamentos registrados.
-- **Editar Pacientes:** Oferece a possibilidade de modificar informaÁıes de um paciente cadastrado.
+- **Editar Pacientes:** Oferece a possibilidade de modificar informa√ß√µes de um paciente cadastrado.
 - **Excluir Pacientes:** Permite remover um registro de paciente do sistema.
 
-### 3. Controle de RequisiÁıes
+### 3. Controle de Requisi√ß√µes
 
-- **Registrar RequisiÁ„o:** O paciente poder· registrar uma nova requisiÁ„o que incluir·: data da requisiÁ„o, dados do paciente, dados do medicamento e a quantidade do medicamento requisitada.
-- **Visualizar RequisiÁıes:** Exibe uma lista exibindo detalhes de todas as requisiÁıes registradas.
-- **Visualizar RequisiÁıes de um Paciente:** Permite visualizar uma lista de requisiÁıes realizadas por um paciente especÌfico.
+- **Registrar Requisi√ß√£o:** O paciente poder√° registrar uma nova requisi√ß√£o que incluir√°: data da requisi√ß√£o, dados do paciente, dados do medicamento e a quantidade do medicamento requisitada.
+- **Visualizar Requisi√ß√µes:** Exibe uma lista exibindo detalhes de todas as requisi√ß√µes registradas.
+- **Visualizar Requisi√ß√µes de um Paciente:** Permite visualizar uma lista de requisi√ß√µes realizadas por um paciente espec√≠fico.
 
-**Ao fazer uma requisiÁ„o de medicamento, ser· necess·rio verificar se a quantidade do mesmo est· disponÌvel no estoque. TambÈm ser· necess·rio subtrair esta quantidade do registro do estoque.**
+**Ao fazer uma requisi√ß√£o de medicamento, ser√° necess√°rio verificar se a quantidade do mesmo est√° dispon√≠vel no estoque. Tamb√©m ser√° necess√°rio subtrair esta quantidade do registro do estoque.**
 
 ---
 ## Requisitos
 
-- .NET SDK (recomendado .NET 8.0 ou superior) para compilaÁ„o e execuÁ„o do projeto.
+- .NET SDK (recomendado .NET 8.0 ou superior) para compila√ß√£o e execu√ß√£o do projeto.
 ---
 ## Como Usar
 
-#### Clone o RepositÛrio
+#### Clone o Reposit√≥rio
 ```
-git clone https://github.com/academia-do-programador/controle-medicamentos-2024.git
+git clone https://github.com/psergioPadilha/controle-medicamentos-2024.git
 ```
 
-#### Navegue atÈ a pasta raiz da soluÁ„o
+#### Navegue at√© a pasta raiz da solu√ß√£o
 ```
 cd controle-medicamentos-2024
 ```
 
-#### Restaure as dependÍncias
+#### Restaure as depend√™ncias
 ```
 dotnet restore
 ```
 
-#### Navegue atÈ a pasta do projeto
+#### Navegue at√© a pasta do projeto
 ```
 cd ControleMedicamentos.ConsoleApp
 ```
