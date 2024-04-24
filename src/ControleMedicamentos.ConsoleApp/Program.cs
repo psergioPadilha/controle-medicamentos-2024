@@ -1,16 +1,19 @@
-﻿namespace ControleMedicamentos.ConsoleApp
+﻿using ControleMedicamentos.ConsoleApp.ModuloMedicamento;
+using ControleMedicamentos.ConsoleApp.Repositorio;
+
+namespace ControleMedicamentos.ConsoleApp
 {
-    internal class Program
+    public class Program
     {
+        //public static RepositorioMedicamento repositorioMedicamento = new RepositorioMedicamento();
         static void Main(string[] args)
         {
+            //repositorioMedicamento.CadastrarMedicamento();
             while (true)
             {
                 string opcao = MenuPrincipal();
+
                 VeificaOpcaoMenuPrincipal(opcao);
-
-
-                Console.ReadKey();
             }
         }
 
@@ -21,17 +24,22 @@
             Console.WriteLine("************************************************************");
             Console.WriteLine("**********        CONTROLE DE MEDICAMENTOS        **********");
             Console.WriteLine("************************************************************");
-            Console.WriteLine(titulo);
             Console.WriteLine();
+            Console.WriteLine(titulo);
         }
         #endregion
 
         #region Menu principal
-        static string MenuPrincipal()
+        public static string MenuPrincipal()
         {
-            Cabecalho("Qual a atividade que deseja realizar?");
+            Cabecalho("Digite a opção que desejar!");
+            Console.WriteLine();
 
-            Console.WriteLine("(1)Cadastro\t(2)Consulta\t(3)Excluir\t(4)Alterar\t(5)Entregar Medicamento\t(6)Sair");
+            Console.WriteLine("(1)Medicamento;");
+            Console.WriteLine("(2)Paciente;");
+            Console.WriteLine("(3)Entregar Medicamentos;");
+            Console.WriteLine("(4)Sair.");
+            Console.WriteLine();
             Console.Write("Opção: ");
 
             return Console.ReadLine();
@@ -41,47 +49,87 @@
         #region Valida e verifica a opção de entrada do menu principal
         static void VeificaOpcaoMenuPrincipal(string opcao)
         {
-            while ((opcao != "1") && (opcao != "2") && (opcao != "3") && (opcao != "4") && (opcao != "5") && (opcao != "6"))
+            while ((opcao != "1") && (opcao != "2") && (opcao != "3") && (opcao != "4"))
             {
-                Cabecalho("Opção inválida, digite novamente...");
+                Cabecalho("");
+                Console.Write("Opção inválida, digite novamente...");
+                Console.ReadLine();
+                Cabecalho("Digite a opção que desejar!");
+                Console.WriteLine();
 
-                Console.WriteLine("(1)Cadastro\t(2)Consulta\t(3)Excluir\t(4)Alterar\t(5)Entregar Medicamento\t(6)Sair");
+                Console.WriteLine("(1)Medicamento;");
+                Console.WriteLine("(2)Paciente;");
+                Console.WriteLine("(3)Entregar Medicamentos;");
+                Console.WriteLine("(4)Sair.");
+                Console.WriteLine();
                 Console.Write("Opção: ");
+                opcao = Console.ReadLine();
             }
             switch (opcao)
             {
                 case "1":
-                    Console.WriteLine("Opção de Cadastro!");
+                    TelaMedicamento.Menu();
                     break;
                 case "2":
-                    Console.WriteLine("Opção de Consulta!");
+                    Cabecalho("Opção de Paciente!");
                     break;
                 case "3":
-                    Console.WriteLine("Opção de Excluir!");
+                    Cabecalho("Opção de Entregar Medicamento!");
                     break;
                 case "4":
-                    Console.WriteLine("Opção de Alterar");
-                    break;
-                case "5":
-                    Console.WriteLine("Opção de Entrega de Medicamento!");
-                    break;
-                default:
                     OpcaoSairDoSistema();
                     break;
             }
         }
         #endregion
 
-        #region
-        static bool OpcaoSairDoSistema()
+        #region Valida e verifica a confirmação de sair do sistema
+        static void OpcaoSairDoSistema()
         {
-            bool sair = false;
+            Console.WriteLine();
             Cabecalho("Deseja mesmo sair do sistema?");
+            Console.WriteLine();
 
-            Console.WriteLine("(1)Sair\t(2)Continuar");
+            Console.WriteLine("(1)Sair\t\t(2)Continuar");
+            Console.WriteLine();
+            Console.Write("Opção: ");
+            string opcao = Console.ReadLine();
 
+            while ((opcao != "1") && (opcao != "2"))
+            {
+                Cabecalho("");
+                Console.Write("Opção inválida, digite novamente...");
+                Console.ReadLine();
 
-            return sair;
+                Console.WriteLine();
+                Console.WriteLine("(1)Sair\t\t(2)Continuar");
+                Console.WriteLine();
+                Console.Write("Opção: ");
+                opcao = Console.ReadLine();
+            }
+            switch (opcao)
+            {
+                case "1":
+                    Environment.Exit(0);
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
+
+        #region Mesnsagem
+        public static void ExibirMensagem(string mensagem, ConsoleColor cor)
+        {
+            Console.ForegroundColor = cor;
+
+            Console.WriteLine();
+
+            Console.WriteLine(mensagem);
+
+            Console.ResetColor();
+
+            Console.ReadLine();
         }
         #endregion
     }
