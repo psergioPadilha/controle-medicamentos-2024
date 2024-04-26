@@ -5,12 +5,11 @@ namespace ControleMedicamentos.ConsoleApp
 {
     public class Program
     {
-        //public static RepositorioMedicamento repositorioMedicamento = new RepositorioMedicamento();
         static void Main(string[] args)
         {
-            //repositorioMedicamento.CadastrarMedicamento();
             while (true)
             {
+
                 string opcao = MenuPrincipal();
 
                 VeificaOpcaoMenuPrincipal(opcao);
@@ -125,7 +124,7 @@ namespace ControleMedicamentos.ConsoleApp
 
             Console.WriteLine();
 
-            Console.WriteLine(mensagem);
+            Console.Write(mensagem);
 
             Console.ResetColor();
 

@@ -50,10 +50,64 @@ namespace ControleMedicamentos.ConsoleApp.Repositorio
             medicamentos[1] = medicamento;
         }
 
-        #region
+        #region Lista medicamentos
         public Medicamento[] ListarMedicamentos()
         {
             return medicamentos;
+        }
+        #endregion
+
+        #region Consulta medicamento
+        public Medicamento ConsultarMedicamento(int id)
+        {
+            Medicamento medicamento = new Medicamento();
+            medicamento = null;
+            
+            for (int i = 0; i < medicamentos.Length; i++)
+            {
+                if (medicamentos[i] != null)
+                {
+                    if (medicamentos[i].IdMedicamento == id)
+                        medicamento = medicamentos[i];
+                    else
+                        continue;
+                }
+                else
+                    continue;
+            }
+            return medicamento;
+        }
+        #endregion
+
+        #region
+        public Medicamento EditarMedicamento(Medicamento medicamento)
+        {
+            for (int i = 0; i < medicamentos.Length; i++)
+            {
+                if (medicamentos[i] == null)
+                    continue;
+                if(medicamento.IdMedicamento == medicamentos[i].IdMedicamento)
+                {
+                    medicamentos[i] = medicamento;
+                }
+            }
+
+            return medicamento;
+        }
+        #endregion
+
+        #region Excluir medicamento
+        internal void ExcluirMedicamento(int id)
+        {
+            for (int i = 0; i < medicamentos.Length; i++)
+            {
+                if (medicamentos[i] == null)
+                    continue;
+                if (medicamentos[i].IdMedicamento == id)
+                {
+                    medicamentos[i] = null;
+                }
+            }
         }
         #endregion
     }
