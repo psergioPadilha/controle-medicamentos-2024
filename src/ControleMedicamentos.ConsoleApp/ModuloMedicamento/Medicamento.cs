@@ -1,30 +1,22 @@
 ﻿
+using ControleMedicamentos.ConsoleApp.ModuloCompartilhado;
+
 namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
 {
-    public class Medicamento
+    internal class Medicamento : EntidadeBase
     {
-        public int IdMedicamento { get; set; }
-        public string nomeMedicamento { get; set; }
-        public string nomeGenerico { get; set; }
-        public string descricao { get; set;}
-        public string apresentacao { get; set; }
-        public string conteudo { get; set; }
-        public string laboratorio { get; set; }
+        public string medicamento { get; set; }
+        public string descricao { get; set; }
+        public string lote { get; set; }
+        public DateTime dataValidade { get; set; }
+        public int quantidade { get; set; } = 5;
 
-        public Medicamento()
+        public Medicamento(string nome, string descricao, string lote, DateTime dataValidade)
         {
-
-        }
-
-        public Medicamento(string nomeMedicamento, string nomeGenerico, string descricao, string apresentacao,
-            string conteudo, string laboratorio)
-        {
-            this.nomeMedicamento = nomeMedicamento;
-            this.nomeGenerico = nomeGenerico;
+            this.medicamento = nome;
             this.descricao = descricao;
-            this.apresentacao = apresentacao;
-            this.conteudo = conteudo;
-            this.laboratorio = laboratorio;
+            this.lote = lote;
+            this.dataValidade = dataValidade;
         }
     }
 }

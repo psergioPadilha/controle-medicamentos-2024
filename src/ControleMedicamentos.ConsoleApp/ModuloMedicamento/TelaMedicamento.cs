@@ -1,526 +1,157 @@
 ﻿
-using System.Reflection.Metadata.Ecma335;
-using ControleMedicamentos.ConsoleApp.Repositorio;
+using System.Globalization;
+using System.Runtime.ConstrainedExecution;
+using ControleMedicamentos.ConsoleApp.ModuloCompartilhado;
+using Microsoft.VisualBasic;
 
 namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
 {
-    public class TelaMedicamento
+    internal class TelaMedicamento : TelaBase
     {
-        public static RepositorioMedicamento repositorioMedicamento = new RepositorioMedicamento();
-
-        #region Cabeçalho
-        static void Cabecalho(string titulo)
+        #region Formulário de medicamento
+        protected override EntidadeBase ObterRegistro()
         {
-            Console.Clear();
-            Console.WriteLine("************************************************************");
-            Console.WriteLine("**********        CONTROLE DE MEDICAMENTOS        **********");
-            Console.WriteLine("************************************************************");
-            Console.WriteLine(titulo);
-        }
-        #endregion
+            Console.Write("Medicamento: ");
+            string medicamento = Console.ReadLine().ToUpper();
+            medicamento = ValidarCampoString("Medicamento inválido, por favor digite novamente...", "Medicamento: ", medicamento);
 
-        #region Menu
-        public static void Menu()
-        {
-            Cabecalho("Medicamentos");
-            Console.WriteLine();
+            Console.Write("Descrição: ");
+            string descricao = Console.ReadLine().ToUpper();
+            descricao = ValidarCampoString("Descrição inválida, por favor digite novamente...", "Descrição: ", descricao);
 
-            Console.WriteLine("(1)Cadastar;");
-            Console.WriteLine("(2)Consultar;");
-            Console.WriteLine("(3)Editar;");
-            Console.WriteLine("(4)Excluir;");
-            Console.WriteLine("(5)Voltar.");
-            Console.WriteLine();
-            Console.Write("Opção: ");
+            Console.Write("Lote: ");
+            string lote = Console.ReadLine().ToUpper();
 
-            string opcao = Console.ReadLine();
-
-            VerificaOpcaoMenu(opcao);
-        }
-        #endregion
-
-        #region Verifica e valida opção de menu
-        static void VerificaOpcaoMenu(string opcao)
-        {
-            while ((opcao != "1") && (opcao != "2") && (opcao != "3") && (opcao != "4") && (opcao != "5"))
-            {
-                Cabecalho("");
-                Console.Write("Opção inválida, digite novamente...");
-                Console.ReadLine();
-                Console.WriteLine();
-
-                Console.WriteLine("(1)Cadastar;");
-                Console.WriteLine("(2)Consultar;");
-                Console.WriteLine("(3)Editar;");
-                Console.WriteLine("(4)Excluir;");
-                Console.WriteLine("(5)Voltar.");
-                Console.WriteLine();
-                Console.Write("Opção: ");
-                opcao = Console.ReadLine();
-            }
-            switch (opcao)
-            {
-                case "1":
-                    CadastrarMedicamento();
-                    break;
-                case "2":
-                    ConsultarMedicamento();
-                    break;
-                case "3":
-                    MenuEditarMedicamento();
-                    break;
-                case "4":
-                    MunuExcluirMedicamento();
-                    break;
-                case "5":
-                    Program.MenuPrincipal();
-                    break;
-            }
-        }
-        #endregion
-
-        #region Excluir medicamento
-        static void MunuExcluirMedicamento()
-        {
-            Cabecalho("Excluir medicamento!");
-            Console.WriteLine();
-            ListaMedicamentos();
-            Console.WriteLine();
-            Console.WriteLine("Deseja excluir medicamento?");
-            Console.WriteLine("(1)SIM\t(2)NÃO");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            string opcao = Console.ReadLine();
-            if (VerificaOpcaoSimNao(opcao))
-            {
-                Console.WriteLine();
-                Console.WriteLine("Digite o ID do medicamento que deseja excluir!");
-                Console.WriteLine();
-                Console.Write("ID do medicamento: ");
-                string idMedicamento = Console.ReadLine();
-
-                int id = VerificarValidarIdMedicamento(idMedicamento);
-
-                Medicamento medicamento = new Medicamento();
-                medicamento = repositorioMedicamento.ConsultarMedicamento(id);
-
-                medicamento = VerificarIdCadastrado(medicamento);
-
-                Cabecalho("Medicamento");
-
-                Console.WriteLine();
-                Console.WriteLine
-                (
-                    "{0, -5} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15} | {6, -10}",
-                    "Id", "Medicamento", "Genérico", "Descrição", "Apresentação", "Conteúdo", "Laboratório"
-                );
-                Console.WriteLine
-                (
-                    "{0, -5} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15} | {6, -10}",
-                    medicamento.IdMedicamento, medicamento.nomeMedicamento, medicamento.nomeGenerico, medicamento.descricao,
-                    medicamento.apresentacao, medicamento.conteudo, medicamento.laboratorio
-                );
-
-                Console.WriteLine();
-                Console.WriteLine("Excluir medicamento " + medicamento.nomeMedicamento + "?");
-                Console.WriteLine("(1)SIM\t(2)NÂO");
-                Console.WriteLine();
-                Console.Write("Opção: ");
-                opcao = Console.ReadLine();
-
-                if (VerificaOpcaoSimNao(opcao))
-                {
-                    repositorioMedicamento.ExcluirMedicamento(id);
-                    Program.ExibirMensagem("Medicamento 'EXCLUÍDO' com sucesso!", ConsoleColor.Green);
-                    MunuExcluirMedicamento();
-                }
-                else
-                    MunuExcluirMedicamento();
-            }
-            else
-                Menu();
-        }
-        #endregion
-
-        #region Verifica opção Sim ou Não
-        private static bool VerificaOpcaoSimNao(string opcao)
-        {
-            while ((opcao != "1") && (opcao != "2"))
-            {
-                Console.WriteLine();
-                Console.Write("Opção inválida, por favor digite novamente...");
-                Console.ReadLine();
-
-                Cabecalho("Excluir medicamento!");
-                Console.WriteLine();
-                ListaMedicamentos();
-                Console.WriteLine();
-                Console.WriteLine("Deseja excluir medicamento?");
-                Console.WriteLine("(1)SIM\t(2)NÃO");
-                Console.WriteLine();
-                Console.WriteLine("Opção: ");
-                opcao = Console.ReadLine();
-            }
-            if(opcao == "1")
-                return true;
-            else
-                return false;
-        }
-        #endregion
-
-        #region Cadastro de novo medicamento
-        public static void CadastrarMedicamento()
-        {
-            //Cabecalho("Cadastro de Medicamento!");
-            //Console.WriteLine();
-
-            //Console.Write("Nome: ");
-            //string descricao = Console.ReadLine();
-
-            //Console.Write("Nome Genérico: ");
-            //string nomeGenerico = Console.ReadLine();
-
-            //Console.Write("Descrição: ");
-            //string descricao = Console.ReadLine();
-
-            //Console.Write("Apresentação: ");
-            //string apreseentacao = Console.ReadLine();
-
-            //Console.Write("Quantidade: ");
-            //string conteudo = Console.ReadLine();
-
-            //Console.Write("Laboratório: ");
-            //string laboratorio = Console.ReadLine();
-
-            //Medicamento medicamento = new Medicamento(descricao, nomeGenerico, descricao, apreseentacao, conteudo, laboratorio);
-            //repositorioMedicamento.CadastrarMedicamento(medicamento);
-
-            repositorioMedicamento.CadastrarMedicamento();
-            Program.ExibirMensagem("Medicamento cadastrado com sucesso!", ConsoleColor.Green);
-            Menu();
-        }
-        #endregion
-
-        #region Consulta de medicamentos
-        private static void ConsultarMedicamento()
-        {
-            Cabecalho("Lista de Medicamentos!");
-            Console.WriteLine();
-
-            ListaMedicamentos();
+            Console.Write("Validade: ");
             
-            Console.WriteLine("(1)Menu Medicamentos\t(2)Menu Inicial");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            string opcao = Console.ReadLine();
+            string validade = Console.ReadLine();
 
-            VerificaOpcaoMenuConsulta(opcao);
+            DateTime dataValidade = ValidarDataValidade("Data inválida, por favor digite novamente...", "O paciente vence hoje...",
+              "Validade: ", validade);
+
+            Medicamento novoMedicamento = new Medicamento(medicamento, descricao, lote, dataValidade);
+
+            return novoMedicamento;
         }
         #endregion
 
-        #region Verifica e valida a opcao do menu de consulta
-        static void VerificaOpcaoMenuConsulta(string opcao)
+        #region Valida o campo dataValidade permitindo apenas um valor do tipo data no formato 'dd/MM/yyyy' maior que a data do sistema
+        private DateTime ValidarDataValidade(string mensagemUm, string mensagemDois, string campo, string validade)
         {
-            while ((opcao != "1") && (opcao != "2"))
-            {
-                Console.Write("Opção inválida, digite novamente...");
-                Console.ReadLine();
-                Console.WriteLine();
+            DateTime validadeConvertida;
+            DateTime hoje = DateTime.Now.Date;
 
-                Console.WriteLine("(1)Menu Medicamentos\t(2)Menu Inicial");
-                Console.WriteLine();
-                Console.Write("Opção: ");
-                opcao = Console.ReadLine();
-            }
-            switch (opcao)
+            bool result = DateTime.TryParseExact(validade,"dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out validadeConvertida);
+            if (validadeConvertida < hoje)
+                result = false;
+
+            while (result == false)
             {
-                case "1":
-                    Menu();
-                    break;
-                case "2":
-                    Program.MenuPrincipal();
-                    break;
+                ExibirMensagem(mensagemUm, ConsoleColor.DarkRed);
+                Console.Write(campo);
+                validade = Console.ReadLine();
+                result = DateTime.TryParseExact(validade, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out validadeConvertida);
+                if (validadeConvertida < hoje)
+                    result = false;
             }
+            if (validadeConvertida == hoje)
+                ExibirMensagem(mensagemDois, ConsoleColor.DarkYellow);
+
+            return validadeConvertida;
         }
         #endregion
 
-        #region Menu edita medicamento
-        static void MenuEditarMedicamento()
+        #region Valida o campo que deve receber uma string, permitindo apenas letras e certificando-se de que o campo não vai ficar em branco
+        private string ValidarCampoString(string mensagem, string campo, string valorCampo)
         {
-            Cabecalho("Lista de Medicamentos!");
-            Console.WriteLine();
-
-            ListaMedicamentos();
-
-            Console.WriteLine();
-            Console.WriteLine("(1)Editar\t(2)Voltar");
-            Console.Write("Opção: ");
-            string opcao = Console.ReadLine();
-
-            opcao = VerificaOpcaoMenuEditar(opcao);
-
-            if(opcao == "1")
+            while ((valorCampo.All(char.IsDigit)) || (string.IsNullOrEmpty(valorCampo.Trim())))
             {
-                Console.WriteLine();
-                Console.WriteLine("Digite o ID do medicamento que deseja editar!");
-                Console.WriteLine();
-                Console.Write("ID do medicamento: ");
-                string idMedicamento = Console.ReadLine();
-
-                int id = VerificarValidarIdMedicamento(idMedicamento);
-
-                Medicamento medicamento = new Medicamento();
-                medicamento = repositorioMedicamento.ConsultarMedicamento(id);
-
-                medicamento = VerificarIdCadastrado(medicamento);
-
-                Cabecalho("Medicamento");
-
-                Console.WriteLine();
-                Console.WriteLine
-                (
-                    "{0, -5} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15} | {6, -10}",
-                    "Id", "Medicamento", "Genérico", "Descrição", "Apresentação", "Conteúdo", "Laboratório"
-                );
-                Console.WriteLine
-                (
-                    "{0, -5} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15} | {6, -10}",
-                    medicamento.IdMedicamento, medicamento.nomeMedicamento, medicamento.nomeGenerico, medicamento.descricao,
-                    medicamento.apresentacao, medicamento.conteudo, medicamento.laboratorio
-                );
-
-                Console.WriteLine();
-                Console.WriteLine("Editar medicamento?");
-                Console.WriteLine("(1)SIM\t(2)NÂO");
-                Console.WriteLine();
-                Console.Write("Opção: ");
-                opcao = Console.ReadLine();
-
-                while ((opcao != "1") && (opcao != "2"))
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Opção inválida, por favor digite novamente");
-                    Console.WriteLine("(1)SIM\t(2)NÂO");
-                    Console.WriteLine();
-                    Console.Write("Opção: ");
-                    opcao = Console.ReadLine();
-                }
-
-                if (opcao == "1")
-                {
-                    medicamento = FormularioEditarMedicamento(medicamento);
-                    Program.ExibirMensagem("Cadastro medicamento 'ALTERADO' com sucesso!", ConsoleColor.Green);
-                    MenuEditarMedicamento();
-                }
-                if (opcao == "2")
-                    MenuEditarMedicamento();
+                ExibirMensagem("Opção inválida, por favor digite novamente...", ConsoleColor.DarkRed);
+                Console.Write(campo);
+                valorCampo = Console.ReadLine();
             }
 
-            if (opcao == "2")
-                Menu();
+            return valorCampo;
         }
         #endregion
 
-        #region Formulário edita medicamento
-        private static Medicamento FormularioEditarMedicamento(Medicamento medicamento)
+        #region Visualiza os registros
+        public override void VisualizarRegistros(bool exibirTitulo)
         {
-            Cabecalho("Formulário de edição de medicamento!");
-            Console.WriteLine();
-            
-            Console.WriteLine("Deseja editar o campo 'Medicamento'?");
-            Console.WriteLine("(1)SIM\t(2)NÂO");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            string opcao = Console.ReadLine();
-            opcao = VerificarOpcaoDoFormularioEditarMedicamento(opcao);
-
-            if (opcao == "1")
+            if (exibirTitulo)
             {
-                Console.Write("Medicamneto: ");
-                string nomeMedicamento = Console.ReadLine();
-                medicamento.nomeMedicamento = nomeMedicamento;
+                ApresentarCabecalho();
+
+                Console.WriteLine("Visualizando Medicamentos...");
             }
 
-            Cabecalho("Formulário de edição de medicamento!");
+            //cabecalho.Cabecalho();
+
+            Console.WriteLine("Lista de medicamentos cadastrados...");
             Console.WriteLine();
 
-            Console.WriteLine("Deseja editar o campo 'Genérico?'");
-            Console.WriteLine("(1)SIM\t(2)NÂO");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            opcao = Console.ReadLine();
-            opcao = VerificarOpcaoDoFormularioEditarMedicamento(opcao);
+            Console.WriteLine(
+                "{0, -5} | {1, -25} | {2, -30} | {3, -15} | {4, -10} | {5, -5}",
+                "ID", "MEDICAMENTO", "DESCRIÇÃO", "LOTE", "VALIDADE", "QUANTIDADE"
+            );
 
-            if (opcao == "1")
+            EntidadeBase[] medicamentosCadastrados = repositorio.SelecionarTodos();
+
+            foreach (Medicamento medicamento in medicamentosCadastrados)
             {
-                Console.Write("Genérico: ");
-                string nomeGenérico = Console.ReadLine();
-                medicamento.nomeGenerico = nomeGenérico;
-            }
-
-            Console.WriteLine("Deseja editar o campo 'Descrição'?");
-            Console.WriteLine("(1)SIM\t(2)NÂO");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            opcao = Console.ReadLine();
-            opcao = VerificarOpcaoDoFormularioEditarMedicamento(opcao);
-
-            if (opcao == "1")
-            {
-                Console.Write("Descrição: ");
-                string descricao = Console.ReadLine();
-                medicamento.descricao = descricao;
-            }
-
-            Console.WriteLine("Desja editar o campo 'Apresentação'?");
-            Console.WriteLine("(1)SIM\t(2)NÂO");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            opcao = Console.ReadLine();
-            opcao = VerificarOpcaoDoFormularioEditarMedicamento(opcao);
-
-            if (opcao == "1")
-            {
-                Console.Write("Apresentação: ");
-                string apresentacao = Console.ReadLine();
-                medicamento.apresentacao = apresentacao;
-            }
-
-            Console.WriteLine("Deseja editar o campo 'Conteúdo'?");
-            Console.WriteLine("(1)SIM\t(2)NÂO");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            opcao = Console.ReadLine();
-            opcao = VerificarOpcaoDoFormularioEditarMedicamento(opcao);
-
-            if (opcao == "1")
-            {
-                Console.Write("Conteúdo: ");
-                string conteudo = Console.ReadLine();
-                medicamento.conteudo = conteudo;
-            }
-
-            Console.WriteLine("Deseja editar o campo 'Laboratório'?");
-            Console.WriteLine("(1)SIM\t(2)NÂO");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            opcao = Console.ReadLine();
-            opcao = VerificarOpcaoDoFormularioEditarMedicamento(opcao);
-
-            if (opcao == "1")
-            {
-                Console.Write("Laboratório: ");
-                string laboratorio = Console.ReadLine();
-                medicamento.laboratorio = laboratorio;
-            }
-
-            return medicamento;
-        }
-        #endregion
-
-        #region Verifica, valida e retorna a opção do formulário de editar medicamento
-        private static string VerificarOpcaoDoFormularioEditarMedicamento(string opcao)
-        {
-            while ((opcao != "1") && (opcao != "2"))
-            {
-                Console.WriteLine();
-                Console.WriteLine("Opção inválida, por favor diigte novamente!");
-                Console.WriteLine();
-                Console.Write("Opção: ");
-                opcao = Console.ReadLine();
-            }
-            return opcao;
-        }
-        #endregion
-
-        #region Veririca e valida o id do medicamento e retorna o medicamento
-        private static Medicamento VerificarIdCadastrado(Medicamento medicamento)
-        {
-            while (medicamento == null)
-            {
-                Console.Write("O ID solicitado não foi encontrado nos registros...");
-                Console.ReadLine();
-                Console.WriteLine();
-                Console.WriteLine("Digite o ID do medicamento que deseja editar!");
-                Console.Write("ID: ");
-                string idMedicamento = Console.ReadLine();
-
-                int id = VerificarValidarIdMedicamento(idMedicamento);
-
-                medicamento = new Medicamento();
-                medicamento = repositorioMedicamento.ConsultarMedicamento(id);
-
-            }
-            return medicamento;
-        }
-        #endregion
-
-        #region Verifica, valida e retorna o id do medicamento
-        private static int VerificarValidarIdMedicamento(string idMedicamento)
-        {
-            int id = 0;
-
-            while ((!idMedicamento.All(char.IsDigit)) || (idMedicamento.Length == 0))
-            {
-                Console.WriteLine();
-                Console.WriteLine("ID inválido, por favor diigte novamente!");
-                Console.WriteLine();
-                Console.Write("ID do medicamento: ");
-                idMedicamento = Console.ReadLine();
-            }
-            
-            id = int.Parse(idMedicamento);
-
-            return id;
-        }
-        #endregion
-
-        #region Verifica e valida a opção do menu editar
-        private static string VerificaOpcaoMenuEditar(string opcao)
-        {
-            while ((opcao != "1") && (opcao != "2"))
-            {
-                Console.WriteLine();
-                Console.WriteLine("Opção inválida, por favor diigte novamente!");
-                Console.WriteLine();
-                Console.WriteLine("(1)Editar\t(2)Voltar");
-                Console.WriteLine();
-                Console.Write("Opção: ");
-                opcao = Console.ReadLine();
-            }
-
-            return opcao;
-        }
-        #endregion
-
-        #region Lista de medicamentos
-        private static void ListaMedicamentos()
-        {
-            Console.WriteLine
-                        (
-                            "{0, -5} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15} | {6, -10}",
-                            "Id", "Medicamento", "Genérico", "Descrição", "Apresentação", "Conteúdo", "Laboratório"
-                        );
-
-            Medicamento[] cadastroDeMedicamentos = repositorioMedicamento.ListarMedicamentos();
-
-            for (int i = 0; i < cadastroDeMedicamentos.Length; i++)
-            {
-                Medicamento novoMedicamento = cadastroDeMedicamentos[i];
-
-                if (novoMedicamento == null)
+                if (medicamento == null)
                     continue;
 
-                Console.WriteLine
-                (
-                    "{0, -5} | {1, -15} | {2, -15} | {3, -15} | {4, -15} | {5, -15} | {6, -10}",
-                    novoMedicamento.IdMedicamento, novoMedicamento.nomeMedicamento, novoMedicamento.nomeGenerico, novoMedicamento.descricao,
-                    novoMedicamento.apresentacao, novoMedicamento.conteudo, novoMedicamento.laboratorio
+                Console.WriteLine(
+                    "{0, -5} | {1, -25} | {2, -30} | {3, -15} | {4, -10} | {5, -5}",
+                    medicamento.Id, medicamento.medicamento, medicamento.descricao, medicamento.lote,
+                    medicamento.dataValidade.ToShortDateString(), medicamento.quantidade
                 );
             }
             Console.WriteLine();
+            Console.ReadLine();
         }
         #endregion
 
+        #region Editar
+        public override void Editar()
+        {
+            ApresentarCabecalho();
+
+            Console.WriteLine($"Editar {tipoEntidade}...");
+
+            Console.WriteLine();
+
+            VisualizarRegistros(false);
+
+            Console.WriteLine($"Digite o ID do {tipoEntidade} que deseja editar!");
+            Console.Write("ID: ");
+            string idEntidade = Console.ReadLine();
+            int idEntidadeEscolhida = VerificarIdValido(idEntidade);
+
+            if (!repositorio.Existe(idEntidadeEscolhida))
+            {
+                ExibirMensagem($"O {tipoEntidade} não foi encontrado!", ConsoleColor.DarkYellow);
+                return;
+            }
+
+            Console.WriteLine();
+
+            EntidadeBase entidade = ObterRegistro();
+
+            bool conseguiuEditar = repositorio.Editar(idEntidadeEscolhida, entidade);
+
+            ExibirMensagem($"O {tipoEntidade} foi editado com sucesso!", ConsoleColor.Green);
+        }
+        #endregion
+
+        private void ExibirMensagem(string mensagem, ConsoleColor cor)
+        {
+            Console.ForegroundColor = cor;
+            Console.WriteLine();
+            Console.Write(mensagem);
+            Console.ResetColor();
+            Console.ReadLine();
+        }
     }
 }

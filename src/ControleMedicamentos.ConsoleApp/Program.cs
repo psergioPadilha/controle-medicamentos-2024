@@ -1,5 +1,6 @@
-﻿using ControleMedicamentos.ConsoleApp.ModuloMedicamento;
-using ControleMedicamentos.ConsoleApp.Repositorio;
+﻿using ControleMedicamentos.ConsoleApp.ModuloCompartilhado;
+using ControleMedicamentos.ConsoleApp.ModuloMedicamento;
+using ControleMedicamentos.ConsoleApp.ModuloPaciente;
 
 namespace ControleMedicamentos.ConsoleApp
 {
@@ -7,129 +8,55 @@ namespace ControleMedicamentos.ConsoleApp
     {
         static void Main(string[] args)
         {
+            TelaPrincipal tealaPrincipal = new TelaPrincipal();
+
+            TelaMedicamento telaMedicamento = new TelaMedicamento();
+            telaMedicamento.tipoEntidade = "Medicamentos";
+
+            TelaPaciente telaPaciente = new TelaPaciente();
+            telaPaciente.tipoEntidade = "Pacientes";
+
             while (true)
             {
+                //apresenta o menu da tela principal e retorna um valor do tipo char já validado
+                char opcaoMenuPrincipal = tealaPrincipal.MenuPrincipal();
 
-                string opcao = MenuPrincipal();
+                //verifica se o valor de retorno indica a opção de saída do sistema, se sim cham a mensagem de confirmação de saída
+                if ((opcaoMenuPrincipal == 's') || (opcaoMenuPrincipal == 'S'))
+                    //confirmação de saída do sistema, se o retorno for verdadeiro encerra a aplicação
+                    if(tealaPrincipal.ExibirMensagemConfimacao("Deseja mesmo sair do sistema?", ConsoleColor.DarkMagenta))
+                        Environment.Exit(0);
 
-                VeificaOpcaoMenuPrincipal(opcao);
+                //caso não seja encerrada a plicação segue verificando qual item de menu o usuário escolheu
+                TelaBase telaBase = null;
+
+                if(opcaoMenuPrincipal == '1')
+                    telaBase = telaMedicamento;
+
+                else if (opcaoMenuPrincipal == '2')
+                    telaBase = telaPaciente;
+
+                //de acordo com o menu uma instância do objeto tela é criada e um novo menu é apresentado ao usuário
+                char opcaoMenuEntidade = telaBase.MenuPrincipal();
+
+                //se o valor de retorno do menu for 'v' ou 'V' o sistema volta ao menu principal se não segue analizando as opções
+                if ((opcaoMenuEntidade == 'v') || (opcaoMenuEntidade == 'V'))
+                    continue;
+
+                if (opcaoMenuEntidade == '1')
+                    telaBase.Cadastrar();
+
+                else if (opcaoMenuEntidade == '2')
+                    telaBase.Editar();
+
+                else if (opcaoMenuEntidade == '3')
+                    telaBase.Excluir();
+
+                else if (opcaoMenuEntidade == '4')
+                    telaBase.VisualizarRegistros(true);
+
+
             }
         }
-
-        #region Cabeçalho
-        static void Cabecalho(string titulo)
-        {
-            Console.Clear();
-            Console.WriteLine("************************************************************");
-            Console.WriteLine("**********        CONTROLE DE MEDICAMENTOS        **********");
-            Console.WriteLine("************************************************************");
-            Console.WriteLine();
-            Console.WriteLine(titulo);
-        }
-        #endregion
-
-        #region Menu principal
-        public static string MenuPrincipal()
-        {
-            Cabecalho("Digite a opção que desejar!");
-            Console.WriteLine();
-
-            Console.WriteLine("(1)Medicamento;");
-            Console.WriteLine("(2)Paciente;");
-            Console.WriteLine("(3)Entregar Medicamentos;");
-            Console.WriteLine("(4)Sair.");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-
-            return Console.ReadLine();
-        }
-        #endregion
-
-        #region Valida e verifica a opção de entrada do menu principal
-        static void VeificaOpcaoMenuPrincipal(string opcao)
-        {
-            while ((opcao != "1") && (opcao != "2") && (opcao != "3") && (opcao != "4"))
-            {
-                Cabecalho("");
-                Console.Write("Opção inválida, digite novamente...");
-                Console.ReadLine();
-                Cabecalho("Digite a opção que desejar!");
-                Console.WriteLine();
-
-                Console.WriteLine("(1)Medicamento;");
-                Console.WriteLine("(2)Paciente;");
-                Console.WriteLine("(3)Entregar Medicamentos;");
-                Console.WriteLine("(4)Sair.");
-                Console.WriteLine();
-                Console.Write("Opção: ");
-                opcao = Console.ReadLine();
-            }
-            switch (opcao)
-            {
-                case "1":
-                    TelaMedicamento.Menu();
-                    break;
-                case "2":
-                    Cabecalho("Opção de Paciente!");
-                    break;
-                case "3":
-                    Cabecalho("Opção de Entregar Medicamento!");
-                    break;
-                case "4":
-                    OpcaoSairDoSistema();
-                    break;
-            }
-        }
-        #endregion
-
-        #region Valida e verifica a confirmação de sair do sistema
-        static void OpcaoSairDoSistema()
-        {
-            Console.WriteLine();
-            Cabecalho("Deseja mesmo sair do sistema?");
-            Console.WriteLine();
-
-            Console.WriteLine("(1)Sair\t\t(2)Continuar");
-            Console.WriteLine();
-            Console.Write("Opção: ");
-            string opcao = Console.ReadLine();
-
-            while ((opcao != "1") && (opcao != "2"))
-            {
-                Cabecalho("");
-                Console.Write("Opção inválida, digite novamente...");
-                Console.ReadLine();
-
-                Console.WriteLine();
-                Console.WriteLine("(1)Sair\t\t(2)Continuar");
-                Console.WriteLine();
-                Console.Write("Opção: ");
-                opcao = Console.ReadLine();
-            }
-            switch (opcao)
-            {
-                case "1":
-                    Environment.Exit(0);
-                    break;
-                default:
-                    break;
-            }
-        }
-        #endregion
-
-        #region Mesnsagem
-        public static void ExibirMensagem(string mensagem, ConsoleColor cor)
-        {
-            Console.ForegroundColor = cor;
-
-            Console.WriteLine();
-
-            Console.Write(mensagem);
-
-            Console.ResetColor();
-
-            Console.ReadLine();
-        }
-        #endregion
     }
 }
