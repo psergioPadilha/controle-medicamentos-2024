@@ -10,7 +10,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloCompartilhado
         public CabecalhoGeral cabecalho = new CabecalhoGeral();
         public string tipoEntidade = "";
 
-        //public RepositorioBase repositorio = null; Apresentava erro no método Cadastrar() na linha - repositorio.Cadastrar(entidade);
+        //public RepositorioBase repositorio = null; Apresentava erro no método Registrar() na linha - repositorio.Registrar(entidade);
         //Mudei o código e tive que mudar a classe RepositorioBase retirando o abstract da assinatura da classe
         public RepositorioBase repositorio = new RepositorioBase();
 
@@ -27,7 +27,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloCompartilhado
         {
             ApresentarCabecalho();
 
-            Console.WriteLine($"(1) Cadastrar {tipoEntidade}");
+            Console.WriteLine($"(1) Registrar {tipoEntidade}");
             Console.WriteLine($"(2) Editar {tipoEntidade}");
             Console.WriteLine($"(3) Excluir {tipoEntidade}");
             Console.WriteLine($"(4) Visualizar {tipoEntidade}s");
@@ -61,7 +61,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloCompartilhado
         #endregion
 
         #region Exibe mensagem
-        private void ExibirMensagem(string mensagem, ConsoleColor cor)
+        public void ExibirMensagem(string mensagem, ConsoleColor cor)
         {
             Console.ForegroundColor = cor;
             Console.WriteLine();
@@ -72,7 +72,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloCompartilhado
         #endregion
 
         #region Cadastrar
-        public virtual void Cadastrar()
+        public virtual void Registrar()
         {
             ApresentarCabecalho();
 

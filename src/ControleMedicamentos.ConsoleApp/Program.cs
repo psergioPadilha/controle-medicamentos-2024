@@ -1,6 +1,7 @@
 ﻿using ControleMedicamentos.ConsoleApp.ModuloCompartilhado;
 using ControleMedicamentos.ConsoleApp.ModuloMedicamento;
 using ControleMedicamentos.ConsoleApp.ModuloPaciente;
+using ControleMedicamentos.ConsoleApp.ModuloRequisicaoDeSaida;
 
 namespace ControleMedicamentos.ConsoleApp
 {
@@ -16,6 +17,9 @@ namespace ControleMedicamentos.ConsoleApp
             TelaPaciente telaPaciente = new TelaPaciente();
             telaPaciente.tipoEntidade = "Pacientes";
 
+            TelaRequisicaoSaida telaREquisicaoSaida = new TelaRequisicaoSaida();
+            telaREquisicaoSaida.tipoEntidade = "Requisição de Saída";
+
             while (true)
             {
                 //apresenta o menu da tela principal e retorna um valor do tipo char já validado
@@ -30,11 +34,13 @@ namespace ControleMedicamentos.ConsoleApp
                 //caso não seja encerrada a plicação segue verificando qual item de menu o usuário escolheu
                 TelaBase telaBase = null;
 
-                if(opcaoMenuPrincipal == '1')
+                if (opcaoMenuPrincipal == '1')
                     telaBase = telaMedicamento;
 
                 else if (opcaoMenuPrincipal == '2')
                     telaBase = telaPaciente;
+                else if (opcaoMenuPrincipal == '3')
+                    telaBase = telaREquisicaoSaida;
 
                 //de acordo com o menu uma instância do objeto tela é criada e um novo menu é apresentado ao usuário
                 char opcaoMenuEntidade = telaBase.MenuPrincipal();
@@ -44,7 +50,7 @@ namespace ControleMedicamentos.ConsoleApp
                     continue;
 
                 if (opcaoMenuEntidade == '1')
-                    telaBase.Cadastrar();
+                    telaBase.Registrar();
 
                 else if (opcaoMenuEntidade == '2')
                     telaBase.Editar();
@@ -54,8 +60,6 @@ namespace ControleMedicamentos.ConsoleApp
 
                 else if (opcaoMenuEntidade == '4')
                     telaBase.VisualizarRegistros(true);
-
-
             }
         }
     }

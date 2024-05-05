@@ -13,7 +13,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
         {
             Console.Write("Medicamento: ");
             string medicamento = Console.ReadLine().ToUpper();
-            medicamento = ValidarCampoString("Medicamento inválido, por favor digite novamente...", "Medicamento: ", medicamento);
+            medicamento = ValidarCampoString("medicamento inválido, por favor digite novamente...", "medicamento: ", medicamento);
 
             Console.Write("Descrição: ");
             string descricao = Console.ReadLine().ToUpper();
@@ -82,10 +82,8 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
             {
                 ApresentarCabecalho();
 
-                Console.WriteLine("Visualizando Medicamentos...");
+                Console.WriteLine("Medicamentos...");
             }
-
-            //cabecalho.Cabecalho();
 
             Console.WriteLine("Lista de medicamentos cadastrados...");
             Console.WriteLine();
@@ -145,6 +143,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
         }
         #endregion
 
+        #region Exibir mensagem
         private void ExibirMensagem(string mensagem, ConsoleColor cor)
         {
             Console.ForegroundColor = cor;
@@ -153,5 +152,6 @@ namespace ControleMedicamentos.ConsoleApp.ModuloMedicamento
             Console.ResetColor();
             Console.ReadLine();
         }
+        #endregion
     }
 }

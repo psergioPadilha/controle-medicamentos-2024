@@ -12,7 +12,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloPaciente
         {
             Console.Write("Paciente: ");
             string nomePaciente = Console.ReadLine().ToUpper();
-            nomePaciente = ValidarCampoString("Medicamento inválido, por favor digite novamente...", "Paciente: ", nomePaciente);
+            nomePaciente = ValidarCampoString("medicamento inválido, por favor digite novamente...", "paciente: ", nomePaciente);
 
             Console.Write("Telefone: ");
             string telefone = Console.ReadLine().ToUpper();

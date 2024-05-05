@@ -14,6 +14,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloCompartilhado
             cabecalho.Cabecalho();
             Console.WriteLine("(1) Medicamentos");
             Console.WriteLine("(2) Pacientes");
+            Console.WriteLine("(3) Requisição de saída");
             Console.WriteLine();
             Console.WriteLine("(S) Sair");
             Console.WriteLine();
@@ -28,7 +29,11 @@ namespace ControleMedicamentos.ConsoleApp.ModuloCompartilhado
         #region Valida a opção do menu principal
         private char ValidarOpcao(string opcaoEntrada)
         {
-            while ((opcaoEntrada != "s") && (opcaoEntrada != "S") && (opcaoEntrada != "1") && (opcaoEntrada != "2"))
+            while 
+                ((opcaoEntrada != "s") && (opcaoEntrada != "S") && 
+                (opcaoEntrada != "1") && (opcaoEntrada != "2") &&
+                (opcaoEntrada != "3") && (opcaoEntrada != "4")
+                )
             {
                 ExibirMensagem("Opção inválida, por favor digite novamente...", ConsoleColor.DarkRed);
                 opcaoEntrada = MenuPrincipal().ToString();

@@ -8,7 +8,7 @@ namespace ControleMedicamentos.ConsoleApp.ModuloCompartilhado
 {
     internal class RepositorioBase
     {
-        protected EntidadeBase[] registros = new EntidadeBase[100];
+        protected EntidadeBase[] registros = new EntidadeBase[5];
 
         protected int contadorId = 1;
 
@@ -74,6 +74,22 @@ namespace ControleMedicamentos.ConsoleApp.ModuloCompartilhado
         public EntidadeBase[] SelecionarTodos()
         {
             return registros;
+        }
+
+        public EntidadeBase SelecionarPorId(int id)
+        {
+            for (int i = 0; i < registros.Length; i++)
+            {
+                EntidadeBase e = registros[i];
+
+                if (e == null)
+                    continue;
+
+                else if (e.Id == id)
+                    return e;
+            }
+
+            return null;
         }
 
         public bool Existe(int id)
